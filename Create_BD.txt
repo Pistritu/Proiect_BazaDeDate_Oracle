@@ -1,0 +1,150 @@
+
+CREATE TABLE librarie 
+(
+    IdLibrarie NUMBER NOT NULL,
+    Nume VARCHAR2(100),
+
+    PRIMARY KEY (IdLibrarie)
+);
+
+
+
+CREATE TABLE carte 
+(
+    IdCarte NUMBER NOT NULL ,
+    ISBN VARCHAR2(50),
+    Titlu VARCHAR2(100),
+    DataPublicarii DATE,
+
+    PRIMARY KEY (IdCarte)
+);
+
+
+
+
+CREATE TABLE librarie_carte 
+(
+    IdLibrarie NUMBER not null,
+    IdCarte NUMBER not null,
+    Pret NUMBER(10 ,3),
+
+
+     FOREIGN KEY (IdLibrarie) REFERENCES librarie(IdLibrarie),
+     FOREIGN KEY (IdCarte) REFERENCES carte(IdCarte),
+     PRIMARY KEY (IdLibrarie, IdCarte)
+);
+
+
+
+
+CREATE TABLE autor
+(
+    IdAutor NUMBER NOT NULL ,
+    Nume VARCHAR2(100),
+    Prenume VARCHAR2(100),
+
+    PRIMARY KEY (IdAutor)
+);
+
+
+
+
+CREATE TABLE carte_autor
+(
+    IdAutor NUMBER ,    
+    IdCarte number,
+
+    
+    FOREIGN KEY (IdAutor) REFERENCES autor(IdAutor),
+    FOREIGN KEY (IdCarte) REFERENCES carte(IdCarte),
+    PRIMARY KEY (IdAutor, IdCarte)
+);
+
+
+
+
+CREATE TABLE categorie
+(
+    IdCategorie NUMBER NOT NULL,
+    Nume VARCHAR2(100),
+    Descriere VARCHAR2(100),
+
+    PRIMARY KEY (IdCategorie)
+);
+
+
+
+
+CREATE TABLE carte_categorie
+(
+    IdCarte NUMBER ,
+    IdCategorie NUMBER ,
+
+     FOREIGN KEY (IdCarte) REFERENCES carte (IdCarte),
+     FOREIGN KEY (IdCategorie) REFERENCES categorie(IdCategorie),
+    
+    PRIMARY KEY (IdCarte, IdCategorie)
+);
+
+
+
+
+CREATE TABLE client
+(
+    IdClient NUMBER NOT NULL,
+    Nume VARCHAR2(100),
+    Prenume VARCHAR2(100),
+    Email VARCHAR2(100),
+    Telefon VARCHAR2(20),
+
+    PRIMARY KEY (IdClient)
+);
+
+
+
+
+CREATE TABLE comanda
+(
+    IdComanda number,
+    IdClient NUMBER ,
+    ISBN VARCHAR(20),
+    Pret NUMBER(10 ,3),
+    SumaToatala NUMBER(10 ,3),
+
+    PRIMARY KEY (IdComanda),
+    FOREIGN KEY (IdClient) REFERENCES client (IdClient)
+);
+
+
+
+
+CREATE TABLE carte_comanda
+(
+    IdCarte NUMBER ,
+    IdComanda number,
+    ISBN VARCHAR2(20),
+
+    
+     FOREIGN KEY (IdCarte) REFERENCES carte(IdCarte),
+    FOREIGN KEY (IdComanda) REFERENCES comanda(IdComanda),
+    PRIMARY KEY (IdComanda, IdCarte)
+);
+
+
+
+testare sum de la comanda :
+
+begin
+dbms_output.put_line(pret_total());
+end;
+
+
+testare procedura crestere pret :
+begin
+
+crestere_pret(176,10);
+
+end
+
+
+testare trigger
